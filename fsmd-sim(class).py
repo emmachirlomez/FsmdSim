@@ -30,13 +30,12 @@ class Gcd_xml:
         return initial_state                       
         
     
-    #This function initializes the "inputs" or "variables" variable  - dict type 
-    #option is a string -> 'input' or 'variable'
+    #This function initializes the "inputs" 
     def ini_input(self):
         l=[]
         result = self.df.getElementsByTagName('input')
         for elem in result:
-            l.append((elem.firstChild.data,2))
+            l.append((elem.firstChild.data,0))
         return dict(l)
 
     def ini_var(self):
@@ -47,8 +46,7 @@ class Gcd_xml:
         return dict(l)
     
     
-    #This function initializes "operations" or "conditions" - dict type
-    #option is a string - 'operation' or 'condition'
+    #This function initializes "operations" 
     
     def ini_oper(self):
         l=[]
@@ -103,7 +101,9 @@ class Gcd_xml:
             fsmd.append((elem,l))
         fsmd= dict(fsmd)
         return fsmd
-    
+
+    #This function initializes the "fsmd_stim" variable
+    #def ini_fsmd_stim(stimuli_file):    
     
     
     def values(self):
@@ -114,53 +114,41 @@ class Gcd_xml:
         self.operations = self.ini_oper()
         self.conditions = self.ini_cond()
         self.fsmd = self.ini_fsmd()    
-    
+  
 
-#This function initializes the "fsmd_stim" variable
-#def ini_fsmd_stim(stimuli_file):
-    
 
 #FUNCTIONS-------------------------------------------------------------------------
-    
-def execute_setinput(obj, operation):
-    op = obj.operations[operation].split(' ')
-    if op[2] == 'var_A'or op[2] == 'var_b':
-        obj.variables[op[0]] = obj.variables[op[2]] - obj.variables[op[4]]
-    else:
-        obj.variables[op[0]] = obj.inputs[op[2]]
-        
 
-#def execute_operation(obj, operation):
-    
-        
-        
-        
+    def execute_setinput(self,operation):
+        op = self.operations[operation].split(' ')
+        if op[2] == 'var_A'or op[2] == 'var_b':
+            self.variables[op[0]] = self.variables[op[2]] - self.variables[op[4]]
+        else:
+            self.variables[op[0]] = self.inputs[op[2]]
 
     
-    
-    
+
+
+       
     
 
-def main():
+def main(a,b,c):
     #variables
-    max_cycles = int(sys.argv[1])
-    description_file = sys.argv[2]
-    stimuli_file = sys.argv[3]
+    max_cycles = a #int(sys.argv[1])
+    description_file = b #sys.argv[2]
+    stimuli_file = c #sys.argv[3]
     obj = Gcd_xml()
     obj.df = minidom.parse(description_file)
     obj.values()
     
     #--------
     for i in range(max_cycles):
-        execute_setinput(obj, 'init_A')
+        obj.execute_setinput('A_minus_B')
     return obj.states,obj.initial_state,obj.inputs, obj.variables,obj.operations, obj.conditions
 
-a= r'C:\Users\bekky\OneDrive\Ambiente de Trabalho\DTU\3. Introduction to Cyber Systems\Assignment1\fsmd-sim\test_2\gcd_desc.xml'
-b= r'C:\Users\bekky\OneDrive\Ambiente de Trabalho\DTU\3. Introduction to Cyber Systems\Assignment1\fsmd-sim\test_2\test.xml'
 
-
-if __name__ == '__main__' :
-    main()
+#if __name__ == '__main__' :
+#    main()
 
 
 
