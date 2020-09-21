@@ -231,20 +231,36 @@ def merge_dicts(*dict_args):
 
 #######################################
 # Start to simulate
-cycle = 0
+
 state = initial_state
-
+final_state = fsmd_stim['fsmdstimulus']['endstate']
 print('\n---Start simulation---')
-# Write your code here!
- 
-#smd = merge_dicts(fsmd, fsmd_stim)
 
-for i in range(sys.argv[1]):
-    print(str(cycle) + '\n')
-    if cycle == 0:
-        fsmd['fsmdstimulus']['setinput'][cycle]['expression']
-    instruction = fsmd[state][0]['instruction']
+def instruction_setf(instruction_set, current_cycle):
+    for i in range(len(fsmd_stim['fsmdstimulus']['setinput'])):
+        if int(fsmd_stim['fsmdstimulus']['setinput'][i]['cycle']) == current_cycle:
+            instruction_set += [fsmd_stim['fsmdstimulus']['setinput'][i]['expression']]
+    return instruction_set
 
+for cycle in range(iterations):
+    instruction_set  = []
+    print(f"Variable A value: {variables['var_A']}")
+    print(f"Variable B value: {variables['var_B']}\n")
+    print(f"You're in cycle {cycle}")
+    print(f"Current state: {state}\n")
+    if state == final_state:
+        break
+    instruction_set = instruction_setf(instruction_set, cycle)
+    for elem in instruction_set:
+        execute_setinput(elem)
+    for i in range(len(fsmd[state])):
+        if evaluate_condition(fsmd[state][i]['condition']):
+            execute_instruction(fsmd[state][i]['instruction'])
+            state = fsmd[state][i]['nextstate']
+            break
+    
+    cycle += 1 
+    
 
 print('\n---End of simulation---')
 
