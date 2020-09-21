@@ -235,12 +235,16 @@ cycle = 0
 state = initial_state
 
 print('\n---Start simulation---')
-
-######################################
-######################################
 # Write your code here!
-######################################
-######################################
+ 
+#smd = merge_dicts(fsmd, fsmd_stim)
+
+for i in range(sys.argv[1]):
+    print(str(cycle) + '\n')
+    if cycle == 0:
+        fsmd['fsmdstimulus']['setinput'][cycle]['expression']
+    instruction = fsmd[state][0]['instruction']
+
 
 print('\n---End of simulation---')
 
