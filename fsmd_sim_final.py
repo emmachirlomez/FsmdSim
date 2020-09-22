@@ -3,7 +3,7 @@
 import sys
 import xmltodict
 
-print("Welcome to the FSMD simulator! - Version ?? - Designed by ??")
+print("Welcome to the FSMD simulator! - Version 1 - Designed by Paulo Dusana & Emma")
 
 if len(sys.argv) < 3:
     print('Too few arguments.')
@@ -261,7 +261,7 @@ if 'setinput' not in fsmd_stim['fsmdstimulus']:
 fsmd_stim = fsmd_stim['fsmdstimulus']['setinput'] 
 def ExtractStim(elem):
     stim_per_cicle[int(elem['cycle'])].append(elem['expression'])
-if type(fsmd_stim) == list:
+if isinstance(fsmd_stim, list):
     for elem in fsmd_stim:
         ExtractStim(elem)
 else:

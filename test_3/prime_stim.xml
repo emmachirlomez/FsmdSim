@@ -2,7 +2,7 @@
 
   <setinput>
     <cycle>0</cycle>
-    <expression>in_P = 12</expression>
+    <expression>in_P = 157</expression>
   </setinput>
   <endstate>END_STATE</endstate>
 
