@@ -232,37 +232,32 @@ def merge_dicts(*dict_args):
 #######################################
 # Start to simulate
 
+
 state = initial_state
 final_state = fsmd_stim['fsmdstimulus']['endstate']
 print('\n---Start simulation---')
 
-def instruction_setf(instruction_set, current_cycle):
-    for i in range(len(fsmd_stim['fsmdstimulus']['setinput'])):
-        if int(fsmd_stim['fsmdstimulus']['setinput'][i]['cycle']) == current_cycle:
-            instruction_set += [fsmd_stim['fsmdstimulus']['setinput'][i]['expression']]
-    return instruction_set
-
+execute_setinput(fsmd_stim['fsmdstimulus']['setinput'][0]['expression'])
+execute_setinput(fsmd_stim['fsmdstimulus']['setinput'][1]['expression'])
+       
 for cycle in range(iterations):
-    instruction_set  = []
     print(f"Variable A value: {variables['var_A']}")
     print(f"Variable B value: {variables['var_B']}\n")
     print(f"You're in cycle {cycle}")
     print(f"Current state: {state}\n")
     if state == final_state:
-        break
-    instruction_set = instruction_setf(instruction_set, cycle)
-    for elem in instruction_set:
-        execute_setinput(elem)
+        break    
     for i in range(len(fsmd[state])):
         if evaluate_condition(fsmd[state][i]['condition']):
             execute_instruction(fsmd[state][i]['instruction'])
             state = fsmd[state][i]['nextstate']
-            break
-    
-    cycle += 1 
-    
+            break  
 
+print(f"The greatest common divisor between {inputs['in_A']} and {inputs['in_B']} is  {variables['var_A']} .")
+execute_setinput(fsmd_stim['fsmdstimulus']['setinput'][2]['expression'])
+execute_setinput(fsmd_stim['fsmdstimulus']['setinput'][3]['expression'])
 print('\n---End of simulation---')
+
 
 #
 # Description:
