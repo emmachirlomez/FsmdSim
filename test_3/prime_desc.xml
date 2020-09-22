@@ -1,0 +1,95 @@
+<fsmddescription>
+
+  <statelist>
+    <state>INIT_STATE</state>
+    <state>LOOP_STATE</state>
+    <state>END_STATE</state>
+  </statelist>
+
+  <initialstate>INIT_STATE</initialstate>
+
+  <inputlist>
+    <input>in_P</input>
+  </inputlist>
+
+  <variablelist>
+    <variable>P</variable>
+    <variable>x</variable>
+    <variable>is_prime</variable>
+  </variablelist>
+
+  <operationlist>
+    <operation>
+      <name>init_P</name>
+      <expression>P = in_P</expression>
+    </operation>
+    <operation>
+      <name>init_x</name>
+      <expression>x = 2</expression>
+    </operation>
+    <operation>
+      <name>init_is_prime</name>
+      <expression>is_prime = True</expression>
+    </operation>
+    <operation>
+      <name>increase_x</name>
+      <expression>x = x + 1</expression>
+    </operation>
+    <operation>
+      <name>set_not_prime</name>
+      <expression>is_prime = False</expression>
+    </operation>
+    </operationlist>
+
+  <conditionlist>
+    <condition>
+      <name>X_equal_P</name>
+      <expression>x == P</expression>
+    </condition>
+    <condition>
+      <name>X_div_P</name>
+      <expression>x != P and P % x == 0</expression>
+    </condition>
+    <condition>
+      <name>X_not_div_P</name>
+      <expression>x != P and P % x != 0</expression>
+    </condition>
+  </conditionlist>
+
+  <fsmd>
+    <INIT_STATE>
+      <transition>
+        <condition>True</condition>
+        <instruction>init_x init_P init_is_prime</instruction>
+        <nextstate>LOOP_STATE</nextstate>
+      </transition>
+    </INIT_STATE>
+
+    <LOOP_STATE>
+      <transition>
+        <condition>X_equal_P</condition>
+        <instruction>NOP</instruction>
+        <nextstate>END_STATE</nextstate>
+      </transition>
+      <transition>
+        <condition>X_not_div_P</condition>
+        <instruction>increase_x</instruction>
+        <nextstate>LOOP_STATE</nextstate>
+      </transition>
+      <transition>
+        <condition>X_div_P</condition>
+        <instruction>set_not_prime</instruction>
+        <nextstate>END_STATE</nextstate>
+      </transition>
+    </LOOP_STATE>
+
+    <END_STATE>
+      <transition>
+        <condition>True</condition>
+        <instruction>NOP</instruction>
+        <nextstate>END_STATE</nextstate>
+      </transition>
+    </END_STATE>
+  </fsmd>
+
+</fsmddescription>

@@ -231,27 +231,90 @@ def merge_dicts(*dict_args):
 
 #######################################
 # Start to simulate
-cycle = 0
-state = initial_state
-
 print('\n---Start simulation---')
 
-######################################
-######################################
 
-cycle = 0
+# Setting up the environment we will work in.
+
+# State stores the state the sfmd is in.
 state = initial_state
+# Cycle stores the cycle the sfmd is in.
+cycle, max_cycle = 0, iterations
+# End state is the state we want to break out of.
+end_state = ""
+if 'fsmdstimulus' in fsmd_stim and 'endstate' in fsmd_stim['fsmdstimulus']:
+    end_state = fsmd_stim['fsmdstimulus']['endstate'] 
 
-print('\n---Start simulation---')
-# Write your code here!
- 
-#smd = merge_dicts(fsmd, fsmd_stim)
+# Getting the stimulus for each cycle.
+stim_per_cicle = dict()
+for c in range(max_cycle + 1):
+    stim_per_cicle[c] = []
 
-for i in range(sys.argv[1]):
-    print(str(cycle) + '\n')
-    if cycle == 0:
-        fsmd['fsmdstimulus']['setinput'][cycle]['expression']
-    instruction = fsmd[state][0]['instruction']
+# Extract stimulus from fsmd_stim.
+# It's a litle bit tricky as if there is a single
+# stimulus, then it's a dict, otherwise it's a list
+# of dicts.
+if 'fsmdstimulus' not in fsmd_stim:
+    fsmd_stim['fsmdstimulus'] = {}
+if 'setinput' not in fsmd_stim['fsmdstimulus']:
+    fsmd_stim['fsmdstimulus']['setinput'] = []
+fsmd_stim = fsmd_stim['fsmdstimulus']['setinput'] 
+def ExtractStim(elem):
+    stim_per_cicle[int(elem['cycle'])].append(elem['expression'])
+if type(fsmd_stim) == list:
+    for elem in fsmd_stim:
+        ExtractStim(elem)
+else:
+    ExtractStim(fsmd_stim)
+
+# Prints the current state of the simulation.
+def PrintStateInfo():
+    print(f"Cycle #{cycle}:")
+    print(f"  Current state: {state}")
+    print(f"  Current variables:")
+    for var in variables:
+        print(f"    {var}: {variables[var]}")
+    print(f"  Current inputs:")
+    for var in inputs:
+        print(f"    {var}: {inputs[var]}")
+
+# Prints information in the valid transition.
+def PrintTransitionInfo(transition):
+    print(f"  Matching transition found:")
+    print(f"    Condition: {transition['condition']}")
+    print(f"    Instruction: {transition['instruction']}")
+    print(f"    Next State: {transition['nextstate']}")
+
+while cycle < max_cycle:
+    for stim in stim_per_cicle[cycle]:
+        execute_setinput(stim)
+
+    PrintStateInfo()
+
+    # If state = end_state, we need to exit.
+    if state == end_state:
+        print(f"  Exited because the current state ({state}) is the End State!")
+        break
+
+    # Iterating through the transitions available to find a matching one.
+    for transition in fsmd[state]:
+        # This is the valid transition
+        if evaluate_condition(transition['condition']):
+            PrintTransitionInfo(transition)
+            execute_instruction(transition['instruction'])
+            state = transition['nextstate']
+            # We changed state so we need to get out of the loop
+            # to avoid undefined behaviour.
+            break
+    else:
+        # If we get here it means that no condition matched.
+        # This state is illegal.
+        print("Unexpected state!")
+        exit()
+
+    # Increment cycle.
+    cycle += 1
+
 
 ######################################
 ######################################

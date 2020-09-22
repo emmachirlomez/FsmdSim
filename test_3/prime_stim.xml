@@ -1,0 +1,9 @@
+<fsmdstimulus>
+
+  <setinput>
+    <cycle>0</cycle>
+    <expression>in_P = 12</expression>
+  </setinput>
+  <endstate>END_STATE</endstate>
+
+</fsmdstimulus>
