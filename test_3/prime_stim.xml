@@ -2,8 +2,14 @@
 
   <setinput>
     <cycle>0</cycle>
-    <expression>in_P = 157</expression>
+    <expression>in_P = 7</expression>
   </setinput>
+
+  <setinput>
+    <cycle>1</cycle>
+    <expression>in_P = 0</expression>
+  </setinput>
+
   <endstate>END_STATE</endstate>
 
 </fsmdstimulus>

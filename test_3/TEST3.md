@@ -31,7 +31,7 @@ The FSMD that does this has the following:
     Next State: LOOP_STATE
 - From LOOP_STATE
   - Condition: X_equal_P
-    Expression: "POS"
+    Expression: "NOP"
     Next State: END_STATE
   - Condition: X_not_div_P
     Expression: "increase_x"
@@ -41,5 +41,5 @@ The FSMD that does this has the following:
     Next State: END_STATE
 - From END_STATE
   - Condition: "True"
-    Expression: "POS"
+    Expression: "NOP"
     Next State: END_STATE

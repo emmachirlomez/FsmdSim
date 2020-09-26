@@ -238,8 +238,8 @@ print('\n---Start simulation---')
 
 # State stores the state the sfmd is in.
 state = initial_state
-# Cycle stores the cycle the sfmd is in.
-cycle, max_cycle = 0, iterations
+# We define the max_cycle as the number of iterations.
+max_cycle = iterations
 # End state is the state we want to break out of.
 end_state = ""
 if 'fsmdstimulus' in fsmd_stim and 'endstate' in fsmd_stim['fsmdstimulus']:
@@ -250,7 +250,7 @@ stim_per_cicle = dict()
 for c in range(max_cycle + 1):
     stim_per_cicle[c] = []
 
-# Extract stimulus from fsmd_stim.
+# Extract stimulus from fsmd_stim if there is one present.
 # It's a litle bit tricky as if there is a single
 # stimulus, then it's a dict, otherwise it's a list
 # of dicts.
@@ -285,7 +285,7 @@ def PrintTransitionInfo(transition):
     print(f"    Instruction: {transition['instruction']}")
     print(f"    Next State: {transition['nextstate']}")
 
-while cycle < max_cycle:
+for cycle in range(max_cycle):
     for stim in stim_per_cicle[cycle]:
         execute_setinput(stim)
 
@@ -312,8 +312,6 @@ while cycle < max_cycle:
         print("Unexpected state!")
         exit()
 
-    # Increment cycle.
-    cycle += 1
 
 
 ######################################
