@@ -5,14 +5,14 @@ The FSMD that does this has the following:
 ## Variables
 
 1. P: prime number we want to test
-1. x: number we will vary from 2 to p - 1, to check if p is divisible by x
-1. is_prime: contains true if p is prime and false otherwise
+2. x: number we will vary from 2 to p - 1, to check if p is divisible by x
+3. is_prime: contains true if p is prime and false otherwise
 
 ## States
 
 1. INIT_STATE
-1. LOOP_STATE
-1. END_STATE
+2. LOOP_STATE
+3. END_STATE
 
 ## Conditions
 
