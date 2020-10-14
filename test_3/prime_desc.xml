@@ -43,16 +43,16 @@
 
   <conditionlist>
     <condition>
-      <name>X_equal_P</name>
-      <expression>x == P</expression>
+      <name>X_*_X_greater_than_P</name>
+      <expression>x * x &gt; P</expression>
     </condition>
     <condition>
       <name>X_div_P</name>
-      <expression>x != P and P % x == 0</expression>
+      <expression>x * x &lt;= P and P % x == 0</expression>
     </condition>
     <condition>
       <name>X_not_div_P</name>
-      <expression>x != P and P % x != 0</expression>
+      <expression>x * x &lt;= P and P % x != 0</expression>
     </condition>
   </conditionlist>
 
@@ -67,7 +67,7 @@
 
     <LOOP_STATE>
       <transition>
-        <condition>X_equal_P</condition>
+        <condition>X_*_X_greater_than_P</condition>
         <instruction>NOP</instruction>
         <nextstate>END_STATE</nextstate>
       </transition>

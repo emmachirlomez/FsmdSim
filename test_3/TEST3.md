@@ -16,12 +16,12 @@ The FSMD that does this has the following:
 
 ## Conditions
 
-- Name: "X_equal_P"
-  Value: "x == p"
+- Name: "X_*_X_greater_than_P"
+  Value: "x * x > p"
 - Name: "X_not_div_P"
-  Value: "x != p and p % x != 0"
+  Value: "x * x <= p and p % x != 0"
 - Name: "X_div_P"
-  Value "x != p and p % x == 0"
+  Value: "x * x <= p and p % x == 0"
 
 ## Transitions
 
@@ -30,7 +30,7 @@ The FSMD that does this has the following:
     Expresion: "init_P init_x init_is_prime"
     Next State: LOOP_STATE
 - From LOOP_STATE
-  - Condition: X_equal_P
+  - Condition: X_*_X_greater_than_P
     Expression: "NOP"
     Next State: END_STATE
   - Condition: X_not_div_P
